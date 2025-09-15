@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - Groww More</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #121836;
+      --muted: #9399b2;
+      --text: #e6e9ef;
+      --accent: #7c3aed;
+      --success: #16a34a;
+      --danger: #ef4444;
+      --border: #232a4a;
+      --chip: #1a2145;
+      --shadow: 0 10px 25px rgba(0,0,0,.35);
+      --footer-bg: #0a0f1e;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7f8fb;
+        --card: #ffffff;
+        --muted: #495264;
+        --text: #0b1020;
+        --accent: #6d28d9;
+        --border: #e6e8ef;
+        --chip: #f3f3ff;
+        --shadow: 0 10px 25px rgba(2,6,23,.08);
+        --footer-bg: #f0f2f7;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1000px 600px at 80% -20%, rgba(124,58,237,.15), transparent 60%), var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(120%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 70%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { display: flex; align-items: center; gap: 16px; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .2px; text-decoration: none; color: inherit; }
+    .logo { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #22d3ee); box-shadow: var(--shadow); }
+
+    .search { flex: 1; position: relative; }
+    .search input {
+      width: 100%; padding: 12px 44px 12px 40px;
+      border-radius: 12px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text);
+      outline: none; transition: box-shadow .2s, border-color .2s;
+    }
+    .search input:focus { box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 20%, transparent); border-color: color-mix(in oklab, var(--accent) 60%, var(--border)); }
+    .search .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); opacity: .7; font-size: 18px; }
+
+    .nav-links { display: flex; align-items: center; gap: 12px; }
+    .btn { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; transition: all 0.2s ease; text-decoration: none; }
+    .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 60%, #22d3ee)); border: none; color: white; }
+    .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3); }
+    .btn.active { background: var(--accent); color: white; border: none; }
+
+    .mobile-toggle { display: none; border: 1px solid var(--border); padding: 8px 10px; border-radius: 10px; background: var(--card); }
+
+    
+    main { flex: 1; padding: 40px 0; }
+
+   
+    .hero {
+      text-align: center;
+      padding: 60px 0 80px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: -1;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.1;
+      margin: 0 0 20px;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.2);
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0 0 8px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    
+    .section {
+      padding: 60px 0;
+    }
+
+    .section-title {
+      font-size: clamp(24px, 3vw, 36px);
+      text-align: center;
+      margin: 0 0 20px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 60px;
+      line-height: 1.6;
+    }
+
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), #22d3ee);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0,0,0,.25);
+    }
+
+    .team-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #22d3ee);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 700;
+      color: white;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    .team-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    .team-role {
+      color: var(--accent);
+      font-weight: 600;
+      margin: 0 0 16px;
+      font-size: 16px;
+    }
+
+    .team-description {
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0 0 20px;
+      font-size: 14px;
+    }
+
+    .team-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .skill-tag {
+      background: var(--chip);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    .mission-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .mission-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .mission-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), #22d3ee);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin: 0 0 20px;
+    }
+
+    .mission-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+
+    .mission-text {
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .value-item {
+      text-align: center;
+      padding: 24px;
+    }
+
+    .value-icon {
+      font-size: 48px;
+      margin: 0 0 16px;
+    }
+
+    .value-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+
+    .value-text {
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    
+    .cta-section {
+      background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 10%, transparent), color-mix(in oklab, #22d3ee 5%, transparent));
+      border-radius: 20px;
+      padding: 60px 40px;
+      text-align: center;
+      margin: 60px 0;
+      border: 1px solid var(--border);
+    }
+
+    .cta-title {
+      font-size: clamp(24px, 3vw, 32px);
+      margin: 0 0 16px;
+    }
+
+    .cta-text {
+      color: var(--muted);
+      margin: 0 0 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-toggle { display: inline-flex; }
+      .hero { padding: 40px 0 60px; }
+      .section { padding: 40px 0; }
+      .team-grid { grid-template-columns: 1fr; }
+      .mission-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 40px 24px; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+    }
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-home:hover {
+      background: color-mix(in oklab, var(--card) 80%, var(--accent));
+      transform: translateX(-2px);
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 32px 24px;
+      }
+      
+      .back-home {
+        position: static;
+        margin-bottom: 20px;
+        width: fit-content;
+      }
+    }
+
+    .visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="back-home">
+    <span>←</span>
+    Back to Home
+  </a>
+    <div class="container">
+      <nav class="nav" aria-label="Primary">
+        <button class="mobile-toggle" aria-label="Open menu" onclick="toggleMenu()">☰</button>
+        <a href="index.html" class="brand" aria-label="Home">
+          <div class="logo" aria-hidden="true"></div>
+          <span>Groww More</span>
+        </a>
+        <div class="search" role="search">
+          <span class="icon" aria-hidden="true">🔎</span>
+          <label for="search" class="visually-hidden">Search stocks, ETFs, crypto</label>
+          <input id="search" type="search" placeholder="Search stocks, ETFs, mutual funds…" />
+        </div>
+        <div style="flex: 1;"></div>
+        <div class="nav-links" id="navLinks">
+          <a href="about.html" class="btn active" aria-label="About Us">About Us</a>
+          <button class="btn" aria-label="Download App">Download</button>
+          <a href="login.html" class="btn" aria-label="Log in">Login</a>
+          <a href="signup.html" class="btn primary">Open Free Demat</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+     
+      <section class="hero">
+        <h1>About Groww More</h1>
+        <p>We're on a mission to democratize investing and make financial markets accessible to every Indian. Built by passionate developers and finance enthusiasts.</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">20M+</div>
+            <div class="stat-label">Active Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">₹500Cr+</div>
+            <div class="stat-label">Assets Under Management</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">7000+</div>
+            <div class="stat-label">Listed Securities</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">99.9%</div>
+            <div class="stat-label">Uptime Guarantee</div>
+          </div>
+        </div>
+      </section>
+
+      
+      <section class="section">
+        <h2 class="section-title">Meet Our Team</h2>
+        <p class="section-subtitle">The passionate developers and finance experts behind Groww More's innovative trading platform.</p>
+        
+        <div class="team-grid">
+          
+          <div class="team-card">
+            <div class="team-avatar">AK</div>
+            <h3 class="team-name">Aditya Shashi Kumar</h3>
+            <p class="team-role">Co-Founder & CEO</p>
+            <p class="team-description">Visionary leader with 8+ years in fintech. Previously at Goldman Sachs, passionate about democratizing investing in India.</p>
+            <div class="team-skills">
+              <span class="skill-tag">Leadership</span>
+              <span class="skill-tag">Strategy</span>
+              <span class="skill-tag">Fintech</span>
+            </div>
+          </div>
+
+          
+          <div class="team-card">
+            <div class="team-avatar">PM</div>
+            <h3 class="team-name">Pavitar Modgil</h3>
+            <p class="team-role">Co-Founder & CTO</p>
+            <p class="team-description">Full-stack engineer and system architect. Expert in building scalable trading platforms with real-time market data processing.</p>
+            <div class="team-skills">
+              <span class="skill-tag">Full Stack</span>
+              <span class="skill-tag">System Design</span>
+              <span class="skill-tag">DevOps</span>
+            </div>
+          </div>
+
+          
+          <div class="team-card">
+            <div class="team-avatar">AS</div>
+            <h3 class="team-name">Ansh Sachdeva</h3>
+            <p class="team-role">Head of Product & Design</p>
+            <p class="team-description">UX/UI specialist focused on creating intuitive trading experiences. Former design lead at top fintech companies.</p>
+            <div class="team-skills">
+              <span class="skill-tag">UI/UX Design</span>
+              <span class="skill-tag">Product Strategy</span>
+              <span class="skill-tag">User Research</span>
+            </div>
+          </div>
+
+          
+          <div class="team-card">
+            <div class="team-avatar">AB</div>
+            <h3 class="team-name">Abheyjeet Singh</h3>
+            <p class="team-role">Head of Engineering</p>
+            <p class="team-description">Backend specialist and security expert. Ensures platform reliability and implements advanced trading algorithms and risk management systems.</p>
+            <div class="team-skills">
+              <span class="skill-tag">Backend Development</span>
+              <span class="skill-tag">Security</span>
+              <span class="skill-tag">Algorithms</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+      <section class="section">
+        <h2 class="section-title">Our Mission</h2>
+        <p class="section-subtitle">Building the future of investing in India with technology, transparency, and trust.</p>
+        
+        <div class="mission-grid">
+          <div class="mission-card">
+            <div class="mission-icon">🚀</div>
+            <h3 class="mission-title">Innovation First</h3>
+            <p class="mission-text">We leverage cutting-edge technology to provide real-time market data, advanced analytics, and seamless trading experiences that were previously available only to institutional investors.</p>
+          </div>
+          
+          <div class="mission-card">
+            <div class="mission-icon">🛡️</div>
+            <h3 class="mission-title">Security & Trust</h3>
+            <p class="mission-text">Your financial security is our top priority. We implement bank-grade encryption, multi-factor authentication, and are regulated by SEBI to ensure your investments are safe.</p>
+          </div>
+          
+          <div class="mission-card">
+            <div class="mission-icon">💡</div>
+            <h3 class="mission-title">Financial Education</h3>
+            <p class="mission-text">We believe informed investors make better decisions. Our platform includes educational resources, market insights, and tools to help you learn and grow your investment knowledge.</p>
+          </div>
+        </div>
+      </section>
+
+      
+      <section class="section">
+        <h2 class="section-title">Our Values</h2>
+        <div class="values-grid">
+          <div class="value-item">
+            <div class="value-icon">🎯</div>
+            <h3 class="value-title">Transparency</h3>
+            <p class="value-text">No hidden fees, clear pricing, and honest communication in everything we do.</p>
+          </div>
+          
+          <div class="value-item">
+            <div class="value-icon">⚡</div>
+            <h3 class="value-title">Speed</h3>
+            <p class="value-text">Lightning-fast order execution and real-time market updates for optimal trading.</p>
+          </div>
+          
+          <div class="value-item">
+            <div class="value-icon">🤝</div>
+            <h3 class="value-title">Accessibility</h3>
+            <p class="value-text">Making investing simple and accessible to every Indian, regardless of experience level.</p>
+          </div>
+          
+          <div class="value-item">
+            <div class="value-icon">🏆</div>
+            <h3 class="value-title">Excellence</h3>
+            <p class="value-text">Continuously improving our platform to provide the best trading experience possible.</p>
+          </div>
+        </div>
+      </section>
+
+      
+      <div class="cta-section">
+        <h2 class="cta-title">Ready to Start Your Investment Journey?</h2>
+        <p class="cta-text">Join millions of Indians who trust Groww More for their investment needs. Open your free demat account today and start investing with zero commission.</p>
+        <div class="cta-buttons">
+          <a href="signup.html" class="btn primary">Open Free Demat Account</a>
+          <a href="index.html" class="btn">Explore Platform</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function toggleMenu(){
+      const el = document.getElementById('navLinks');
+      if(!el) return;
+      const isOpen = getComputedStyle(el).display !== 'none';
+      el.style.display = isOpen ? 'none' : 'flex';
+    }
+  </script>
+</body>
+</html>

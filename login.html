@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Groww More</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #121836;
+      --muted: #9399b2;
+      --text: #e6e9ef;
+      --accent: #7c3aed;
+      --success: #16a34a;
+      --danger: #ef4444;
+      --border: #232a4a;
+      --chip: #1a2145;
+      --shadow: 0 10px 25px rgba(0,0,0,.35);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7f8fb;
+        --card: #ffffff;
+        --muted: #495264;
+        --text: #0b1020;
+        --accent: #6d28d9;
+        --border: #e6e8ef;
+        --chip: #f3f3ff;
+        --shadow: 0 10px 25px rgba(2,6,23,.08);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1000px 600px at 80% -20%, rgba(124,58,237,.15), transparent 60%), var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      margin: 20px;
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), #22d3ee);
+      box-shadow: var(--shadow);
+      margin: 0 auto 16px;
+    }
+
+    .brand-text {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      background: linear-gradient(135deg, var(--accent), #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .login-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .form-header h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .form-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--card) 50%, var(--bg));
+      color: var(--text);
+      font-size: 16px;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 20%, transparent);
+    }
+
+    .form-input::placeholder {
+      color: var(--muted);
+    }
+
+    .password-input {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+
+    .forgot-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 60%, #22d3ee));
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px color-mix(in oklab, var(--accent) 30%, transparent);
+      margin-bottom: 20px;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px color-mix(in oklab, var(--accent) 40%, transparent);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .divider {
+      position: relative;
+      text-align: center;
+      margin: 24px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      background: var(--card);
+      padding: 0 16px;
+    }
+
+    .social-login {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .social-btn:hover {
+      background: color-mix(in oklab, var(--card) 80%, var(--accent));
+      border-color: var(--accent);
+    }
+
+    .signup-link {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .signup-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-home:hover {
+      background: color-mix(in oklab, var(--card) 80%, var(--accent));
+      transform: translateX(-2px);
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 32px 24px;
+      }
+      
+      .back-home {
+        position: static;
+        margin-bottom: 20px;
+        width: fit-content;
+      }
+    }
+
+    .error-message {
+      background: color-mix(in oklab, var(--danger) 15%, transparent);
+      border: 1px solid color-mix(in oklab, var(--danger) 30%, transparent);
+      color: var(--danger);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-home">
+    <span>←</span>
+    Back to Home
+  </a>
+
+  <div class="login-container">
+    <div class="logo-section">
+      <div class="logo"></div>
+      <h2 class="brand-text">Groww More</h2>
+      <p class="tagline">Smart investing made simple</p>
+    </div>
+
+    <div class="login-card">
+      <div class="form-header">
+        <h1>Welcome Back</h1>
+        <p>Sign in to your account to continue investing</p>
+      </div>
+
+      <div class="error-message" id="errorMessage">
+        Invalid email or password. Please try again.
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+            <button type="button" class="password-toggle" onclick="togglePassword()">👁</button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <div class="checkbox-group">
+            <input type="checkbox" id="remember" class="checkbox">
+            <label for="remember">Remember me</label>
+          </div>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="login-btn">Sign In</button>
+      </form>
+
+      <div class="divider">
+        <span>or continue with</span>
+      </div>
+
+      <div class="social-login">
+        <button class="social-btn">
+          <span>🌐</span>
+          Google
+        </button>
+        <button class="social-btn">
+          <span>📱</span>
+          Mobile
+        </button>
+      </div>
+
+      <div class="signup-link">
+        Don't have an account? <a href="signup.html">Create account</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleBtn = document.querySelector('.password-toggle');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.textContent = '🙈';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.textContent = '👁';
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+      
+      
+      if (email && password) {
+        
+        alert('Login successful! Redirecting to dashboard...');
+       
+        window.location.href = 'index.html';
+      } else {
+        errorMessage.style.display = 'block';
+        setTimeout(() => {
+          errorMessage.style.display = 'none';
+        }, 3000);
+      }
+    });
+
+    
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.style.transform = 'scale(1.02)';
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.style.transform = 'scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>

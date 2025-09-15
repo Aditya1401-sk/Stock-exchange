@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Account - Groww More</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --bg-secondary: #111827;
+      --card: #1a2332;
+      --card-hover: #1f2937;
+      --muted: #94a3b8;
+      --text: #f1f5f9;
+      --accent: #6366f1;
+      --accent-light: #8b5cf6;
+      --accent-dark: #4338ca;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: #374151;
+      --border-light: #4b5563;
+      --chip: #1e293b;
+      --shadow: 0 20px 50px rgba(0,0,0,0.4);
+      --shadow-lg: 0 25px 60px rgba(0,0,0,0.5);
+      --gradient-primary: linear-gradient(135deg, var(--accent), var(--accent-light));
+      --gradient-bg: radial-gradient(1200px 800px at 70% -10%, rgba(99,102,241,0.12), transparent 70%),
+                     radial-gradient(800px 600px at 30% 80%, rgba(139,92,246,0.08), transparent 60%);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #fafbfc;
+        --bg-secondary: #f8fafc;
+        --card: #ffffff;
+        --card-hover: #f8fafc;
+        --muted: #64748b;
+        --text: #0f172a;
+        --accent: #6366f1;
+        --border: #e2e8f0;
+        --border-light: #cbd5e1;
+        --chip: #f1f5f9;
+        --shadow: 0 20px 50px rgba(15,23,42,0.08);
+        --shadow-lg: 0 25px 60px rgba(15,23,42,0.12);
+        --gradient-bg: radial-gradient(1200px 800px at 70% -10%, rgba(99,102,241,0.06), transparent 70%),
+                       radial-gradient(800px 600px at 30% 80%, rgba(139,92,246,0.04), transparent 60%);
+      }
+    }
+
+    * { 
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: var(--gradient-bg), var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .animated-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+    .floating-shape { position: absolute; opacity: 0.1; animation: float 20s infinite linear; }
+    .shape-1 { top: 10%; left: 10%; width: 200px; height: 200px; background: var(--gradient-primary); border-radius: 50%; animation-delay: 0s; }
+    .shape-2 { top: 60%; right: 10%; width: 150px; height: 150px; background: linear-gradient(45deg, var(--accent-light), var(--success)); border-radius: 30%; animation-delay: -7s; }
+    .shape-3 { bottom: 20%; left: 20%; width: 100px; height: 100px; background: linear-gradient(60deg, var(--accent), var(--warning)); border-radius: 20px; animation-delay: -14s; }
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 25%{transform:translateY(-20px) rotate(90deg)} 50%{transform:translateY(0) rotate(180deg)} 75%{transform:translateY(20px) rotate(270deg)} }
+
+    .signup-container { display: flex; min-height: 100vh; position: relative; }
+    .left-panel { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; background: var(--bg-secondary); position: relative; overflow: hidden; }
+    .left-content { max-width: 500px; z-index: 2; }
+
+    .logo-section { margin-bottom: 48px; }
+    .logo { width: 64px; height: 64px; border-radius: 16px; background: var(--gradient-primary); box-shadow: var(--shadow); margin-bottom: 24px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; color: white; position: relative; overflow: hidden; }
+    .logo::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); transform: rotate(45deg); animation: shine 3s infinite; }
+    @keyframes shine { 0%{transform:translateX(-100%) translateY(-100%) rotate(45deg)} 100%{transform:translateX(100%) translateY(100%) rotate(45deg)} }
+
+    .brand-text { font-size: 36px; font-weight: 800; margin: 0 0 12px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.5px; }
+    .tagline { color: var(--muted); font-size: 18px; margin: 0 0 32px; line-height: 1.6; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .feature-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 16px; padding: 24px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+    .feature-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.04); border-color: var(--border-light); box-shadow: var(--shadow); }
+    .feature-icon { width: 48px; height: 48px; background: var(--gradient-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px; }
+    .feature-title { font-size: 16px; font-weight: 600; margin: 0 0 8px; color: var(--text); }
+    .feature-desc { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    .right-panel { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; position: relative; }
+    .signup-card { width: 100%; max-width: 480px; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 48px; box-shadow: var(--shadow-lg); backdrop-filter: blur(20px); position: relative; overflow: hidden; }
+    .signup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-light), transparent); }
+
+    .form-header { text-align: center; margin-bottom: 40px; }
+    .form-header h1 { margin: 0 0 12px; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    .form-header p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+
+    .progress-steps { display: flex; justify-content: center; margin-bottom: 32px; gap: 8px; }
+    .step { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: all 0.3s ease; }
+    .step.active { background: var(--accent); transform: scale(1.2); }
+    .step.completed { background: var(--success); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 24px; position: relative; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--text); }
+
+    .input-wrapper { position: relative; }
+    .form-input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 2px solid var(--border); background: var(--bg); color: var(--text); font-size: 16px; font-weight: 400; transition: all 0.3s ease; outline: none; }
+    .form-input:focus { border-color: var(--accent); background: var(--card); box-shadow: 0 0 0 4px rgba(99,102,241,0.1); transform: translateY(-1px); }
+    .form-input:valid { border-color: var(--success); }
+    .form-input::placeholder { color: var(--muted); font-weight: 400; }
+    .input-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); transition: all 0.3s ease; }
+    .form-input:focus + .input-icon { color: var(--accent); }
+
+    .password-input { position: relative; }
+    .password-toggle { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); cursor: pointer; font-size: 18px; padding: 4px; border-radius: 4px; transition: all 0.2s ease; }
+    .password-toggle:hover { color: var(--accent); background: rgba(99,102,241,0.1); }
+
+    .password-strength { margin-top: 12px; font-size: 12px; }
+    .strength-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin: 8px 0; }
+    .strength-fill { height: 100%; transition: all 0.4s ease; border-radius: 3px; }
+    .strength-weak .strength-fill { width: 25%; background: var(--danger); }
+    .strength-medium .strength-fill { width: 60%; background: var(--warning); }
+    .strength-strong .strength-fill { width: 100%; background: var(--success); }
+    .strength-text { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+
+    .checkbox-group { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 28px; font-size: 14px; line-height: 1.6; }
+
+    /* ✅ FIXED: make the invisible input span the whole box so clicks work */
+    .custom-checkbox { position: relative; width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
+    .custom-checkbox input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; margin: 0; }
+    .checkmark { position: absolute; top: 0; left: 0; height: 20px; width: 20px; background: var(--bg); border: 2px solid var(--border); border-radius: 6px; transition: all 0.3s ease; pointer-events: none; }
+    .custom-checkbox input:checked + .checkmark { background: var(--accent); border-color: var(--accent); }
+    .checkmark::after { content: ""; position: absolute; display: none; left: 6px; top: 2px; width: 4px; height: 8px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    .custom-checkbox input:checked + .checkmark::after { display: block; }
+
+    /* make label clearly clickable */
+    .checkbox-group label { cursor: pointer; }
+
+    .checkbox-group a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .checkbox-group a:hover { text-decoration: underline; }
+
+    .signup-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; background: var(--gradient-primary); color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(99,102,241,0.3); margin-bottom: 24px; position: relative; overflow: hidden; }
+    .signup-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
+    .signup-btn:hover::before { left: 100%; }
+    .signup-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(99,102,241,0.4); }
+    .signup-btn:active { transform: translateY(0); }
+    .signup-btn:disabled { background: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.6; }
+
+    .divider { position: relative; text-align: center; margin: 32px 0; color: var(--muted); font-size: 14px; }
+    .divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border); }
+    .divider span { background: var(--card); padding: 0 20px; }
+
+    .social-login { display: flex; gap: 12px; margin-bottom: 28px; }
+    .social-btn { flex: 1; padding: 14px; border: 2px solid var(--border); border-radius: 12px; background: var(--card); color: var(--text); cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500; font-size: 14px; }
+    .social-btn:hover { background: var(--card-hover); border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
+
+    .login-link { text-align: center; color: var(--muted); font-size: 14px; }
+    .login-link a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .login-link a:hover { text-decoration: underline; }
+
+    .back-home { position: absolute; top: 24px; left: 24px; padding: 12px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; color: var(--text); text-decoration: none; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; z-index: 10; }
+    .back-home:hover { background: var(--card-hover); border-color: var(--accent); transform: translateX(-4px); box-shadow: var(--shadow); }
+
+    .error-message, .success-message { padding: 14px 18px; border-radius: 10px; font-size: 14px; margin-bottom: 24px; display: none; border: 1px solid; }
+    .error-message { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: var(--danger); }
+    .success-message { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--success); }
+
+    .field-error { color: var(--danger); font-size: 12px; margin-top: 6px; display: none; font-weight: 500; }
+
+    .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.8s ease-in-out infinite; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1024px) {
+      .signup-container { flex-direction: column; }
+      .left-panel { min-height: 50vh; padding: 32px; }
+      .features-grid { grid-template-columns: 1fr; gap: 16px; }
+      .right-panel { padding: 32px 20px; }
+      .signup-card { padding: 36px 28px; max-width: 100%; }
+    }
+
+    @media (max-width: 640px) {
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .left-panel { display: none; }
+      .signup-card { padding: 28px 20px; border-radius: 16px; }
+      .back-home { position: static; margin-bottom: 24px; width: fit-content; }
+    }
+
+    .input-animation { animation: shake 0.5s ease-in-out; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+  </style>
+</head>
+<body>
+  <div class="animated-bg">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+
+  <a href="index.html" class="back-home">
+    <span>←</span>
+    Back to Home
+  </a>
+
+  <div class="signup-container">
+    <div class="left-panel">
+      <div class="left-content">
+        <div class="logo-section">
+          <div class="logo"></div>
+          <h2 class="brand-text">Groww More</h2>
+          <p class="tagline">Join India's future Stock Exchange App</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3 class="feature-title">Zero Brokerage</h3>
+            <p class="feature-desc">Free delivery trades with no hidden charges</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3 class="feature-title">Bank-grade Security</h3>
+            <p class="feature-desc">Your investments are protected with 256-bit encryption</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Expert Research</h3>
+            <p class="feature-desc">Get actionable insights from market experts</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Lightning Fast</h3>
+            <p class="feature-desc">Execute trades in milliseconds</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="signup-card">
+        <div class="form-header">
+          <h1>Create Your Account</h1>
+          <p>Start your investment journey in just 2 minutes</p>
+        </div>
+
+        <div class="progress-steps">
+          <div class="step active"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="signupForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <div class="input-wrapper">
+                <input type="text" id="firstName" class="form-input" placeholder="Enter first name" required>
+                <div class="input-icon">👤</div>
+              </div>
+              <div class="field-error" id="firstNameError"></div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <div class="input-wrapper">
+                <input type="text" id="lastName" class="form-input" placeholder="Enter last name" required>
+                <div class="input-icon">👤</div>
+              </div>
+              <div class="field-error" id="lastNameError"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+              <div class="input-icon">📧</div>
+            </div>
+            <div class="field-error" id="emailError"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Mobile Number</label>
+            <div class="input-wrapper">
+              <input type="tel" id="phone" class="form-input" placeholder="Enter 10-digit mobile number" required>
+              <div class="input-icon">📱</div>
+            </div>
+            <div class="field-error" id="phoneError"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Create Password</label>
+            <div class="password-input">
+              <input type="password" id="password" class="form-input" placeholder="Create a strong password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('password')">👁</button>
+            </div>
+            <div class="password-strength" id="passwordStrength">
+              <div class="strength-bar">
+                <div class="strength-fill"></div>
+              </div>
+              <div class="strength-text">
+                <span id="strengthText">Password strength: Weak</span>
+                <span id="strengthTips">8+ chars, numbers, symbols</span>
+              </div>
+            </div>
+            <div class="field-error" id="passwordError"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-input">
+              <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">👁</button>
+            </div>
+            <div class="field-error" id="confirmPasswordError"></div>
+          </div>
+
+          <div class="checkbox-group">
+            <div class="custom-checkbox">
+              <input type="checkbox" id="terms" aria-label="Accept terms and conditions" required>
+              <span class="checkmark"></span>
+            </div>
+            <label for="terms">
+              I agree to the <a href="#" target="_blank">Terms & Conditions</a> and <a href="#" target="_blank">Privacy Policy</a>
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <div class="custom-checkbox">
+              <input type="checkbox" id="marketing" aria-label="Subscribe to market updates">
+              <span class="checkmark"></span>
+            </div>
+            <label for="marketing">
+              Send me market updates and investment tips via email/SMS
+            </label>
+          </div>
+
+          <button type="submit" class="signup-btn" id="submitBtn">
+            <span id="btnText">Create Account</span>
+          </button>
+        </form>
+
+        <div class="divider">
+          <span>or continue with</span>
+        </div>
+
+        <div class="social-login">
+          <button class="social-btn" type="button">
+            <span>🌐</span>
+            Google
+          </button>
+          <button class="social-btn" type="button">
+            <span>📱</span>
+            Mobile OTP
+          </button>
+        </div>
+
+        <div class="login-link">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.step');
+
+    function updateSteps(step) {
+      steps.forEach((s, index) => {
+        s.classList.remove('active', 'completed');
+        if (index < step) s.classList.add('completed');
+        else if (index === step) s.classList.add('active');
+      });
+    }
+
+    function togglePassword(fieldId) {
+      const passwordInput = document.getElementById(fieldId);
+      const toggleBtn = passwordInput.nextElementSibling;
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.textContent = '🙈';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.textContent = '👁';
+      }
+    }
+
+    function checkPasswordStrength(password) {
+      let strength = 0;
+      const checks = {
+        length: password.length >= 8,
+        lowercase: /[a-z]/.test(password),
+        uppercase: /[A-Z]/.test(password),
+        numbers: /\d/.test(password),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+      };
+      strength = Object.values(checks).filter(Boolean).length;
+      const strengthBar = document.querySelector('.strength-bar');
+      const strengthText = document.getElementById('strengthText');
+      const strengthTips = document.getElementById('strengthTips');
+      strengthBar.className = 'strength-bar';
+      if (strength <= 2) {
+        strengthBar.classList.add('strength-weak');
+        strengthText.textContent = 'Password strength: Weak';
+        strengthTips.textContent = 'Add uppercase, numbers & symbols';
+      } else if (strength <= 4) {
+        strengthBar.classList.add('strength-medium');
+        strengthText.textContent = 'Password strength: Good';
+        strengthTips.textContent = 'Almost there! Add more variety';
+      } else {
+        strengthBar.classList.add('strength-strong');
+        strengthText.textContent = 'Password strength: Excellent';
+        strengthTips.textContent = 'Great! Your password is secure';
+      }
+      return strength >= 3;
+    }
+
+    function validateForm() {
+      let isValid = true;
+      const errors = {};
+      document.querySelectorAll('.field-error').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.form-input').forEach(el => el.classList.remove('input-animation'));
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const terms = document.getElementById('terms').checked;
+
+      if (!firstName || firstName.length < 2) {
+        errors.firstName = 'First name must be at least 2 characters';
+        isValid = false;
+      } else if (!/^[a-zA-Z\s]+$/.test(firstName)) {
+        errors.firstName = 'First name should contain only letters';
+        isValid = false;
+      }
+      if (!lastName || lastName.length < 2) {
+        errors.lastName = 'Last name must be at least 2 characters';
+        isValid = false;
+      } else if (!/^[a-zA-Z\s]+$/.test(lastName)) {
+        errors.lastName = 'Last name should contain only letters';
+        isValid = false;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        errors.email = 'Email is required';
+        isValid = false;
+      } else if (!emailRegex.test(email)) {
+        errors.email = 'Please enter a valid email address';
+        isValid = false;
+      }
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phone) {
+        errors.phone = 'Mobile number is required';
+        isValid = false;
+      } else if (!phoneRegex.test(phone)) {
+        errors.phone = 'Enter a valid 10-digit mobile number starting with 6-9';
+        isValid = false;
+      }
+      if (!password) {
+        errors.password = 'Password is required';
+        isValid = false;
+      } else if (password.length < 8) {
+        errors.password = 'Password must be at least 8 characters long';
+        isValid = false;
+      } else if (!checkPasswordStrength(password)) {
+        errors.password = 'Password should be stronger (use uppercase, lowercase, numbers, and symbols)';
+        isValid = false;
+      }
+      if (!confirmPassword) {
+        errors.confirmPassword = 'Please confirm your password';
+        isValid = false;
+      } else if (password !== confirmPassword) {
+        errors.confirmPassword = 'Passwords do not match';
+        isValid = false;
+      }
+      if (!terms) {
+        showError('Please accept the terms and conditions to continue');
+        isValid = false;
+      }
+      Object.keys(errors).forEach(field => {
+        const errorEl = document.getElementById(field + 'Error');
+        const inputEl = document.getElementById(field);
+        if (errorEl && inputEl) {
+          errorEl.textContent = errors[field];
+          errorEl.style.display = 'block';
+          inputEl.classList.add('input-animation');
+          inputEl.focus();
+        }
+      });
+      if (isValid) {
+        updateSteps(2);
+      }
+      return isValid;
+    }
+
+    function showError(message) {
+      const errorMsg = document.getElementById('errorMessage');
+      errorMsg.textContent = message;
+      errorMsg.style.display = 'block';
+      setTimeout(() => { errorMsg.style.display = 'none'; }, 5000);
+    }
+    function showSuccess(message) {
+      const successMsg = document.getElementById('successMessage');
+      successMsg.textContent = message;
+      successMsg.style.display = 'block';
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (validateForm()) {
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        submitBtn.disabled = true;
+        btnText.innerHTML = '<span class="loading-spinner"></span>Creating Account...';
+        document.getElementById('errorMessage').style.display = 'none';
+        setTimeout(() => {
+          showSuccess('Account created successfully! Welcome to Groww More 🎉');
+          btnText.textContent = 'Account Created!';
+          setTimeout(() => { window.location.href = 'login.html?newAccount=true'; }, 2000);
+        }, 2500);
+      }
+    });
+
+    document.getElementById('password').addEventListener('input', function() {
+      if (this.value.length > 0) { checkPasswordStrength(this.value); updateSteps(1); }
+      else { updateSteps(0); }
+    });
+
+    const inputs = ['firstName', 'lastName', 'email', 'phone', 'password', 'confirmPassword'];
+    inputs.forEach(inputId => {
+      const input = document.getElementById(inputId);
+      input.addEventListener('blur', function() {
+        const errorEl = document.getElementById(inputId + 'Error');
+        if (this.value.trim() && errorEl.style.display === 'block') {
+          setTimeout(() => {
+            if (this.value.trim()) { errorEl.style.display = 'none'; this.classList.remove('input-animation'); }
+          }, 100);
+        }
+      });
+      input.addEventListener('focus', function() {
+        this.classList.remove('input-animation');
+        const errorEl = document.getElementById(inputId + 'Error');
+        if (errorEl.style.display === 'block') { errorEl.style.display = 'none'; }
+      });
+      input.addEventListener('input', function() {
+        if (currentStep === 0 && this.value.length > 0) { updateSteps(1); currentStep = 1; }
+      });
+    });
+
+    document.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('focus', function() { this.parentElement.style.transform = 'translateY(-2px)'; this.parentElement.style.transition = 'transform 0.2s ease'; });
+      input.addEventListener('blur', function() { this.parentElement.style.transform = 'translateY(0)'; });
+    });
+
+    document.querySelectorAll('.social-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const provider = this.textContent.trim();
+        showError(`${provider} login will be available soon! Please use email registration.`);
+      });
+    });
+
+    // fun micro-interaction on checkbox change
+    document.querySelectorAll('.custom-checkbox input').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const checkmark = this.nextElementSibling;
+        checkmark.style.transform = 'scale(1.1)';
+        setTimeout(() => { checkmark.style.transform = 'scale(1)'; }, 150);
+      });
+    });
+
+    updateSteps(0);
+
+    window.addEventListener('load', function() {
+      const card = document.querySelector('.signup-card');
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      setTimeout(() => { card.style.transition = 'all 0.6s ease'; card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 100);
+    });
+
+    document.addEventListener('keydown', function(e) {
+      // keep Enter-to-next for text inputs only; ignore when focused on buttons or checkboxes
+      const target = e.target;
+      if (e.key === 'Enter' && target.classList.contains('form-input') && target.type !== 'submit') {
+        e.preventDefault();
+        const inputs = Array.from(document.querySelectorAll('.form-input'));
+        const currentIndex = inputs.indexOf(target);
+        const nextInput = inputs[currentIndex + 1];
+        if (nextInput) { nextInput.focus(); }
+        else { document.getElementById('submitBtn').click(); }
+      }
+    });
+  </script>
+</body>
+</html>
