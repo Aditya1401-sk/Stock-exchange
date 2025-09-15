@@ -572,7 +572,6 @@
       });
     });
 
-    // fun micro-interaction on checkbox change
     document.querySelectorAll('.custom-checkbox input').forEach(checkbox => {
       checkbox.addEventListener('change', function() {
         const checkmark = this.nextElementSibling;
@@ -591,7 +590,6 @@
     });
 
     document.addEventListener('keydown', function(e) {
-      // keep Enter-to-next for text inputs only; ignore when focused on buttons or checkboxes
       const target = e.target;
       if (e.key === 'Enter' && target.classList.contains('form-input') && target.type !== 'submit') {
         e.preventDefault();
